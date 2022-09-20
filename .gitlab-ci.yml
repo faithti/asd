@@ -2,6 +2,10 @@ variables:
   IMAGE_NAME: faitht/testrepo
   IMAGE_TAG: python-app-1.0
 
+stages:
+  - test
+  - build
+
 run_tests:
   stage: test
   image: python:3.9-slim-buster
@@ -11,6 +15,7 @@ run_tests:
     - make test
 
 build_image:
+  stage: build
   image: docker:20.10.16
   services:
     - docker:20.10.16-dind
@@ -21,4 +26,6 @@ build_image:
   script:
     - docker build -t $IMAGE_NAME:$IMAGE_TAG .
     - docker push $IMAGE_NAME:$IMAGE_TAG
+
+
 
